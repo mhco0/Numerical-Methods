@@ -1,0 +1,5 @@
+virtualenv -p python3 virEnv
+source virEnv/bin/activate
+pip install -r requirements.txt
+
+###
