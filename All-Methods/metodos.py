@@ -7,6 +7,7 @@ def EulerPd(y0,t0,h,funct):
 	return yn + h*funct.subs({t:t0,y:yn})
 
 
+
 #################### Methods ####################
 def Euler(y0,t0,h,qp,funct):
 	print('Metodo de Euler')
@@ -70,10 +71,11 @@ def Runge_Kutta(y0,t0,h,qp,funct):
 		t0 = t0 + h
 	return
 
-def Adam_Bashforth(y0,t0,h,qp,funct,order):
+def Adam_Bashforth(yl,t0,h,qp,funct,order):
 	print('Metodo de Adam-Bashforth')
 	print('y({}) = {}'.format(t0,y0))
 	print('h = {}'.format(h))
+
 
 	coefM = [
 			[1],
@@ -86,9 +88,34 @@ def Adam_Bashforth(y0,t0,h,qp,funct,order):
 			[16083.0/4480,-1152169.0/120960,242653.0/13440,-296053.0/13440,2102243.0/120960,-115747.0/13440,32863.0/13440,-5257.0/17280]
 			]
 
+	yn = 0 
+
+	for i in range(order-1):
+		print(i,' ',yl[i])
+
+	for i in range(order,qp,1):
+		som = 0
+
+		for j in range(coefM[order-1])
+			som += yl[len(yl)-j]
+
+
 
 	return 
 def Adam_Moulton():
+
+
+	coefM = [
+			[1],
+			[1.0/2,1.0/2],
+			[5.0/12,2.0/3,-1.0/12],
+			[3.0/8,19.0/24,-5.0/24,1.0/24],
+			[251.0/720,323.0/360,-11.0/30,53.0/360,-19.0/720],
+			[95.0/288,1427.0/1440,-133.0/240,241.0/720,-173.0/1440,3.0/160],
+			[19087.0/60480,2713.0/2520,-15487.0/20160,586.0/945,-6737.0/20160,263.0/2520,-863.0/60480],
+			[5257.0/17280,139849.0/120960,-4511/4480,123133.0/120960,-88547.0/120960,1537.0/4480,-11351.0/120960,275.0/24192]
+			]
+
 	return
 
 def Formula_Inversa():
