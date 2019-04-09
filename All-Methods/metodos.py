@@ -1,5 +1,6 @@
 from sympy import *
 from sympy.parsing.sympy_parser import parse_expr
+import sys
 #################### Auxi ####################
 def EulerPd(y0,t0,h,funct):
 	t,y = symbols('t y')
@@ -173,8 +174,10 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 		print(i,' %.16f'%yn)
 	return 
 
-def Adam_Moulton():
-
+def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
+	print('Metodo de Adam-Multon'+straux)
+	print('y({}) = {}'.format(t0,yl[0]))
+	print('h = {}'.format(h))
 
 	coefM = [
 			[1],
@@ -193,123 +196,140 @@ def Formula_Inversa():
 	return
 
 def main():
-	entry = str(input()).split()
 
-	method = entry[0]
+	for inpt in sys.stdin:
+		entry = str(inpt).split()
 
-	if(method == 'euler'):
-		y0 = float(entry[1])
-		t0 = float(entry[2])
-		h = float(entry[3])
-		qp = int(entry[4])
-		funct = parse_expr(entry[5])
+		method = entry[0]
 
-		Euler(y0,t0,h,qp,funct)
-	elif(method == 'euler_inverso'):
-		y0 = float(entry[1])
-		t0 = float(entry[2])
-		h = float(entry[3])
-		qp = int(entry[4])
-		funct = parse_expr(entry[5])
+		if(method == 'euler'):
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
 
-		Euler_Inverso(y0,t0,h,qp,funct)
-	elif(method == 'euler_aprimorado'):
-		y0 = float(entry[1])
-		t0 = float(entry[2])
-		h = float(entry[3])
-		qp = int(entry[4])
-		funct = parse_expr(entry[5])
+			Euler(y0,t0,h,qp,funct)
+			print()
 
-		Euler_Aprimorado(y0,t0,h,qp,funct)
-	elif(method == 'runge_kutta'):
-		y0 = float(entry[1])
-		t0 = float(entry[2])
-		h = float(entry[3])
-		qp = int(entry[4])
-		funct = parse_expr(entry[5])
+		elif(method == 'euler_inverso'):
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
 
-		Runge_Kutta(y0,t0,h,qp,funct)
-	elif(method == 'adam_bashforth'):
-		yl = []
-		size = len(entry)
+			Euler_Inverso(y0,t0,h,qp,funct)
+			print()
 
-		for i in range(int(entry[size-1])-1):
-			yl.append(entry[i+1])
+		elif(method == 'euler_aprimorado'):
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+
+			Euler_Aprimorado(y0,t0,h,qp,funct)
+			print()
+
+		elif(method == 'runge_kutta'):
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+
+			Runge_Kutta(y0,t0,h,qp,funct)
+			print()
+
+		elif(method == 'adam_bashforth'):
+			yl = []
+			size = len(entry)
+
+			for i in range(int(entry[size-1])-1):
+				yl.append(entry[i+1])
 
 
-		t0 = float(entry[size-5])
-		h = float(entry[size-4])
-		qp = int(entry[size-3])
-		funct = parse_expr(entry[size-2])
-		order = int(entry[size-1])
-		
-		Adam_Bashforth(yl,t0,h,qp,funct,order)
+			t0 = float(entry[size-5])
+			h = float(entry[size-4])
+			qp = int(entry[size-3])
+			funct = parse_expr(entry[size-2])
+			order = int(entry[size-1])
+			
+			Adam_Bashforth(yl,t0,h,qp,funct,order)
+			print()
 
-	elif(method == 'adam_bashforth_by_euler'):
+		elif(method == 'adam_bashforth_by_euler'):
 
-		y0 = float(entry[1])
-		t0 = float(entry[2])
-		h = float(entry[3])
-		qp = int(entry[4])
-		funct = parse_expr(entry[5])
-		order = int(entry[6])
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
 
-		yl = EulerList(y0,t0,h,funct,order)
-		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler')
-	elif(method == 'adam_bashforth_by_euler_inverso'):
+			yl = EulerList(y0,t0,h,funct,order)
+			Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler')
+			print()
 
-		y0 = float(entry[1])
-		t0 = float(entry[2])
-		h = float(entry[3])
-		qp = int(entry[4])
-		funct = parse_expr(entry[5])
-		order = int(entry[6])
+		elif(method == 'adam_bashforth_by_euler_inverso'):
 
-		yl = EulerInvList(y0,t0,h,funct,order)
-		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler Inverso')
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
 
-	elif(method == 'adam_bashforth_by_euler_aprimorado'):
+			yl = EulerInvList(y0,t0,h,funct,order)
+			Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler Inverso')
+			print()
 
-		y0 = float(entry[1])
-		t0 = float(entry[2])
-		h = float(entry[3])
-		qp = int(entry[4])
-		funct = parse_expr(entry[5])
-		order = int(entry[6])
+		elif(method == 'adam_bashforth_by_euler_aprimorado'):
 
-		yl = EulerAprimList(y0,t0,h,funct,order)
-		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler Aprimorado')
-	elif(method == 'adam_bashforth_by_runge_kutta'):
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
 
-		y0 = float(entry[1])
-		t0 = float(entry[2])
-		h = float(entry[3])
-		qp = int(entry[4])
-		funct = parse_expr(entry[5])
-		order = int(entry[6])
+			yl = EulerAprimList(y0,t0,h,funct,order)
+			Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler Aprimorado')
+			print()
 
-		yl = RungeKuttaList(y0,t0,h,funct,order)
-		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Runge-Kutta ( ordem = {} )'.format(order))
+		elif(method == 'adam_bashforth_by_runge_kutta'):
 
-	# elif(method == 'adam_multon'):
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
 
-	# elif(method == 'adam_multon_by_euler'):
+			yl = RungeKuttaList(y0,t0,h,funct,order)
+			Adam_Bashforth(yl,t0,h,qp,funct,order,' por Runge-Kutta ( ordem = {} )'.format(order))
+			print()
 
-	# elif(method == 'adam_multon_by_euler_inverso'):
+		# elif(method == 'adam_multon'):
 
-	# elif(method == 'adam_multon_by_euler_aprimorado'):
+		# elif(method == 'adam_multon_by_euler'):
 
-	# elif(method == 'adam_multon_by_runge_kutta'):
+		# elif(method == 'adam_multon_by_euler_inverso'):
 
-	# elif(method == 'formula_inversa'):
+		# elif(method == 'adam_multon_by_euler_aprimorado'):
 
-	# elif(method == 'formula_inversa_by_euler'):
+		# elif(method == 'adam_multon_by_runge_kutta'):
 
-	# elif(method == 'formula_inversa_by_euler_inverso'):
+		# elif(method == 'formula_inversa'):
 
-	# elif(method == 'formula_inversa_by_euler_aprimorado'):
+		# elif(method == 'formula_inversa_by_euler'):
 
-	# elif(method == 'formula_inversa_by_runge_kutta'):
+		# elif(method == 'formula_inversa_by_euler_inverso'):
+
+		# elif(method == 'formula_inversa_by_euler_aprimorado'):
+
+		# elif(method == 'formula_inversa_by_runge_kutta'):
 
 	return 0
 
