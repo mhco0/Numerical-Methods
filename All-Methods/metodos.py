@@ -6,7 +6,20 @@ def EulerPd(y0,t0,h,funct):
 	yn = y0
 	return yn + h*funct.subs({t:t0,y:yn})
 
+def EulerList(y0,t0,h,funct,order):
+	yl = []
 
+	yl.append(y0)
+
+	t,y = symbols('t y')
+
+	yn = y0
+	for i in range(order-2):
+		yn = yn + h*funct.subs({t:t0,y:yn})
+		t0 = t0 + h
+		yl.append(yn)
+
+	return yl
 
 #################### Methods ####################
 def Euler(y0,t0,h,qp,funct):
@@ -71,9 +84,9 @@ def Runge_Kutta(y0,t0,h,qp,funct):
 		t0 = t0 + h
 	return
 
-def Adam_Bashforth(yl,t0,h,qp,funct,order):
-	print('Metodo de Adam-Bashforth')
-	print('y({}) = {}'.format(t0,y0))
+def Adam_Bashforth(yl,t0,h,qp,funct,order,straux):
+	print('Metodo de Adam-Bashforth'+straux)
+	print('y({}) = {}'.format(t0,yl[0]))
 	print('h = {}'.format(h))
 
 
@@ -88,20 +101,29 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order):
 			[16083.0/4480,-1152169.0/120960,242653.0/13440,-296053.0/13440,2102243.0/120960,-115747.0/13440,32863.0/13440,-5257.0/17280]
 			]
 
-	yn = 0 
+	t,y = symbols('t y')
+
+	yn = float(yl[len(yl)-1])
 
 	for i in range(order-1):
 		print(i,' ',yl[i])
-
-	for i in range(order,qp,1):
-		som = 0
-
-		for j in range(coefM[order-1])
-			som += yl[len(yl)-j]
+		t0 = t0 + h
 
 
+	for i in range(order-1,qp+1,1):
+		aux = 0.0
 
+		for j in range(len(coefM[order-2])):
+			aux += h*coefM[order-2][j]*funct.subs({t:(t0-(h*j)),y:float(yl[len(yl)-j-1])})
+
+		yn = yn + aux
+		t0 = t0 + h
+
+		yl.append(yn)
+
+		print(i,' ',yn)
 	return 
+
 def Adam_Moulton():
 
 
@@ -162,20 +184,29 @@ def main():
 		yl = []
 		size = len(entry)
 
-		for i in range(int(entry[size-1])):
+		for i in range(int(entry[size-1])-1):
 			yl.append(entry[i+1])
 
-		y0 = float(entry[size-6])
+
 		t0 = float(entry[size-5])
 		h = float(entry[size-4])
 		qp = int(entry[size-3])
 		funct = parse_expr(entry[size-2])
 		order = int(entry[size-1])
 		
-		Adam_Bashforth(y0,t0,h,qp,funct,order)
+		Adam_Bashforth(yl,t0,h,qp,funct,order,'')
 
-	# elif(method == 'adam_bashforth_by_euler'):
+	elif(method == 'adam_bashforth_by_euler'):
 
+		y0 = float(entry[1])
+		t0 = float(entry[2])
+		h = float(entry[3])
+		qp = int(entry[4])
+		funct = parse_expr(entry[5])
+		order = int(entry[6])
+
+		yl = EulerList(y0,t0,h,funct,order)
+		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler')
 	# elif(method == 'adam_bashforth_by_euler_inverso'):
 
 	# elif(method == 'adam_bashforth_by_euler_aprimorado'):
