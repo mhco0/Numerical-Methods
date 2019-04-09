@@ -3,23 +3,73 @@ from sympy.parsing.sympy_parser import parse_expr
 #################### Auxi ####################
 def EulerPd(y0,t0,h,funct):
 	t,y = symbols('t y')
-	yn = y0
-	return yn + h*funct.subs({t:t0,y:yn})
+	return float(y0 + h*funct.subs({t:t0,y:y0}))
 
 def EulerList(y0,t0,h,funct,order):
 	yl = []
 
-	yl.append(y0)
+	yl.append(float(y0))
 
 	t,y = symbols('t y')
 
-	yn = y0
-	for i in range(order-2):
+	yn = float(y0)
+	for i in range(order-1):
 		yn = yn + h*funct.subs({t:t0,y:yn})
 		t0 = t0 + h
 		yl.append(yn)
 
 	return yl
+
+def EulerInvList(y0,t0,h,funct,order):
+	yl = []
+
+	yl.append(float(y0))
+
+	t,y = symbols('t y')
+
+	yn = float(y0)
+	for i in range(order-1):
+		yaux = EulerPd(yn,t0,h,funct)
+		taux = t0 + h
+		yn = yn + h*funct.subs({t:taux,y:yaux})
+		t0 = t0 + h 
+		yl.append(yn)
+	return yl
+
+def EulerAprimList(y0,t0,h,funct,order):
+	yl = []
+
+	yl.append(float(y0))
+
+	t,y = symbols('t y')
+
+	yn = float(y0)
+	for i in range(order-1):
+		k1 = funct.subs({t:t0,y:yn})
+		k2 = funct.subs({t:(t0+h),y:yn+h*k1})
+		yn = yn + float((h*(k1+k2))/2)
+		t0 = t0 + h
+		yl.append(yn)
+	return yl
+
+def RungeKuttaList(y0,t0,h,funct,order):
+	yl = []
+
+	yl.append(float(y0))
+
+	t,y = symbols('t y')
+
+	yn = float(y0)
+	for i in range(order-1):
+		k1 = funct.subs({t:t0,y:yn})
+		k2 = funct.subs({t:(t0+h/2),y:yn+(h/2)*k1})
+		k3 = funct.subs({t:(t0+h/2),y:yn+(h/2)*k2})
+		k4 = funct.subs({t:(t0+h),y:yn+h*k3})
+		yn = yn + float((h*(k1+2*k2+2*k3+k4))/6)
+		t0 = t0 + h
+		yl.append(yn)
+	return yl
+
 
 #################### Methods ####################
 def Euler(y0,t0,h,qp,funct):
@@ -84,7 +134,7 @@ def Runge_Kutta(y0,t0,h,qp,funct):
 		t0 = t0 + h
 	return
 
-def Adam_Bashforth(yl,t0,h,qp,funct,order,straux):
+def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 	print('Metodo de Adam-Bashforth'+straux)
 	print('y({}) = {}'.format(t0,yl[0]))
 	print('h = {}'.format(h))
@@ -105,23 +155,22 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux):
 
 	yn = float(yl[len(yl)-1])
 
-	for i in range(order-1):
-		print(i,' ',yl[i])
+	for i in range(order):
+		print(i,' %.16f'%yl[i])
 		t0 = t0 + h
 
+	for i in range(order,qp+1,1):
+		aux = 0
 
-	for i in range(order-1,qp+1,1):
-		aux = 0.0
-
-		for j in range(len(coefM[order-2])):
-			aux += h*coefM[order-2][j]*funct.subs({t:(t0-(h*j)),y:float(yl[len(yl)-j-1])})
+		for j in range(len(coefM[order-1])):
+			aux += h*coefM[order-1][j]*funct.subs({t:(t0-(h*j)),y:float(yl[len(yl)-j-1])})
 
 		yn = yn + aux
 		t0 = t0 + h
 
 		yl.append(yn)
 
-		print(i,' ',yn)
+		print(i,' %.16f'%yn)
 	return 
 
 def Adam_Moulton():
@@ -194,7 +243,7 @@ def main():
 		funct = parse_expr(entry[size-2])
 		order = int(entry[size-1])
 		
-		Adam_Bashforth(yl,t0,h,qp,funct,order,'')
+		Adam_Bashforth(yl,t0,h,qp,funct,order)
 
 	elif(method == 'adam_bashforth_by_euler'):
 
@@ -207,11 +256,40 @@ def main():
 
 		yl = EulerList(y0,t0,h,funct,order)
 		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler')
-	# elif(method == 'adam_bashforth_by_euler_inverso'):
+	elif(method == 'adam_bashforth_by_euler_inverso'):
 
-	# elif(method == 'adam_bashforth_by_euler_aprimorado'):
+		y0 = float(entry[1])
+		t0 = float(entry[2])
+		h = float(entry[3])
+		qp = int(entry[4])
+		funct = parse_expr(entry[5])
+		order = int(entry[6])
 
-	# elif(method == 'adam_bashforth_by_runge_kutta'):
+		yl = EulerInvList(y0,t0,h,funct,order)
+		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler Inverso')
+
+	elif(method == 'adam_bashforth_by_euler_aprimorado'):
+
+		y0 = float(entry[1])
+		t0 = float(entry[2])
+		h = float(entry[3])
+		qp = int(entry[4])
+		funct = parse_expr(entry[5])
+		order = int(entry[6])
+
+		yl = EulerAprimList(y0,t0,h,funct,order)
+		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Euler Aprimorado')
+	elif(method == 'adam_bashforth_by_runge_kutta'):
+
+		y0 = float(entry[1])
+		t0 = float(entry[2])
+		h = float(entry[3])
+		qp = int(entry[4])
+		funct = parse_expr(entry[5])
+		order = int(entry[6])
+
+		yl = RungeKuttaList(y0,t0,h,funct,order)
+		Adam_Bashforth(yl,t0,h,qp,funct,order,' por Runge-Kutta ( ordem = {} )'.format(order))
 
 	# elif(method == 'adam_multon'):
 
