@@ -6,6 +6,32 @@ def EulerPd(y0,t0,h,funct):
 	t,y = symbols('t y')
 	return float(y0 + h*funct.subs({t:t0,y:y0}))
 
+def Adam_BashforthPd(yl,t0,h,funct,order):
+
+	coefM = [
+			[1],
+			[3.0/2,-1.0/2],
+			[23.0/12,-4.0/3,5.0/12],
+			[55.0/24,-59.0/24,37.0/24,-3.0/8],
+			[1901.0/720,-1387.0/360,109.0/30,-637.0/360,251.0/720],
+			[4277.0/1440,-2641.0/480,4991.0/720,-3649.0/720,959.0/480,-95.0/288],
+			[198721.0/60480,-18637.0/2520,235183.0/20160,-10754.0/945,135713.0/20160,-5603.0/2520,19087.0/60480],
+			[16083.0/4480,-1152169.0/120960,242653.0/13440,-296053.0/13440,2102243.0/120960,-115747.0/13440,32863.0/13440,-5257.0/17280]
+			]
+
+	t,y = symbols('t y')
+
+	aux = 0
+
+	yn = yl[len(yl)-1]
+
+	for j in range(len(coefM[order-1])):
+		aux += h*coefM[order-1][j]*funct.subs({t:(t0-(h*j)),y:float(yl[len(yl)-j-1])})
+
+	yn = yn + aux
+
+	return yn
+
 def EulerList(y0,t0,h,funct,order):
 	yl = []
 
@@ -190,6 +216,31 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 			[5257.0/17280,139849.0/120960,-4511/4480,123133.0/120960,-88547.0/120960,1537.0/4480,-11351.0/120960,275.0/24192]
 			]
 
+	t,y = symbols('t y')
+
+
+	yn = float(yl[len(yl)-1])
+
+	for i in range(order):
+		print(i,' %.16f'%yl[i])
+		t0 = t0 + h
+
+	for i in range(order,qp+1,1):
+		aux = 0.0
+
+		implict = h*coefM[order-1][0]*funct.subs({t:t0+h,y:Adam_BashforthPd(yl,t0,h,funct,order)})
+
+		aux += implict
+
+		for j in range(1,len(coefM[order-1]),1):
+			aux += h*coefM[order-1][j]*funct.subs({t:(t0-(h*j)),y:float(yl[len(yl)-j-1])})
+
+		yn = yn + aux
+		t0 = t0 + h
+
+		yl.append(yn)
+
+		print(i,' %.16f'%yn)
 	return
 
 def Formula_Inversa():
@@ -246,8 +297,9 @@ def main():
 			yl = []
 			size = len(entry)
 
-			for i in range(int(entry[size-1])-1):
+			for i in range(int(entry[size-1])):
 				yl.append(entry[i+1])
+				yl[i] = float(yl[i])
 
 
 			t0 = float(entry[size-5])
@@ -311,7 +363,26 @@ def main():
 			Adam_Bashforth(yl,t0,h,qp,funct,order,' por Runge-Kutta ( ordem = {} )'.format(order))
 			print()
 
-		# elif(method == 'adam_multon'):
+		elif(method == 'adam_multon'):
+
+			yl = []
+			size = len(entry)
+
+			for i in range(int(entry[size-1])):
+				yl.append(entry[i+1])
+				yl[i] = float(yl[i])
+
+			print(yl)
+
+
+			t0 = float(entry[size-5])
+			h = float(entry[size-4])
+			qp = int(entry[size-3])
+			funct = parse_expr(entry[size-2])
+			order = int(entry[size-1])
+			
+			Adam_Multon(yl,t0,h,qp,funct,order)
+			print()
 
 		# elif(method == 'adam_multon_by_euler'):
 
