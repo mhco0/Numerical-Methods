@@ -183,7 +183,7 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 	yn = float(yl[len(yl)-1])
 
 	for i in range(order):
-		print(i,' %.16f'%yl[i])
+		print(i,' %.17f'%yl[i])
 		t0 = t0 + h
 
 	#t0 = t0 - h
@@ -198,7 +198,7 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 
 		yl.append(yn)
 
-		print(i,' %.16f'%yn)
+		print(i,' %.17f'%yn)
 	return 
 
 def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
@@ -223,7 +223,7 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 	yn = float(yl[len(yl)-1])
 
 	for i in range(order):
-		print(i,' %.16f'%yl[i])
+		print(i,' %.17f'%yl[i])
 		t0 = t0 + h
 
 	#t0 = t0 - h
@@ -242,7 +242,7 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 
 		yl.append(yn)
 
-		print(i,' %.16f'%yn)
+		print(i,' %.17f'%yn)
 	return
 
 def Formula_Inversa():
@@ -384,13 +384,56 @@ def main():
 			Adam_Multon(yl,t0,h,qp,funct,order)
 			print()
 
-		# elif(method == 'adam_multon_by_euler'):
+		elif(method == 'adam_multon_by_euler'):
 
-		# elif(method == 'adam_multon_by_euler_inverso'):
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
 
-		# elif(method == 'adam_multon_by_euler_aprimorado'):
+			yl = EulerList(y0,t0,h,funct,order)
+			Adam_Multon(yl,t0,h,qp,funct,order,' por Euler')
+			print()
 
-		# elif(method == 'adam_multon_by_runge_kutta'):
+		elif(method == 'adam_multon_by_euler_inverso'):
+
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
+
+			yl = EulerInvList(y0,t0,h,funct,order)
+			Adam_Multon(yl,t0,h,qp,funct,order,' por Euler Inverso')
+			print()
+		elif(method == 'adam_multon_by_euler_aprimorado'):
+
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
+
+			yl = EulerAprimList(y0,t0,h,funct,order)
+			Adam_Multon(yl,t0,h,qp,funct,order,' por Euler Aprimorado')
+			print()
+		elif(method == 'adam_multon_by_runge_kutta'):
+
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
+
+			yl = RungeKuttaList(y0,t0,h,funct,order)
+			print(yl)
+			Adam_Multon(yl,t0,h,qp,funct,order,' por Runge-Kutta ( ordem = {} )'.format(order))
+			print()
 
 		# elif(method == 'formula_inversa'):
 
