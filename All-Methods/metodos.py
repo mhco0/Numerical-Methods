@@ -222,6 +222,8 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 
 	yn = float(yl[len(yl)-1])
 
+	print(yl)
+
 	for i in range(order):
 		print(i,' ',yl[i])
 		if(i>0):
@@ -235,7 +237,7 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 		aux += implict
 
 		for j in range(1,len(coefM[order-1]),1):
-			aux += h*coefM[order-1][j]*funct.subs({t:(t0-(h*j)),y:float(yl[len(yl)-j-1])})
+			aux += h*coefM[order-1][j]*funct.subs({t:(t0-(h*(j-1))),y:float(yl[len(yl)-(j-1)-1])})
 
 		yn = yn + aux
 		t0 = t0 + h
