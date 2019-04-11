@@ -10,7 +10,7 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
-setenv VIRTUAL_ENV "/home/CIN/mhco/Desktop/Numerical-Methods/All-Methods/virEnv"
+setenv VIRTUAL_ENV "/home/CIN/tmt2/Desktop/Numerical-Methods/All-Methods/virEnv"
 
 set _OLD_VIRTUAL_PATH="$PATH:q"
 setenv PATH "$VIRTUAL_ENV:q/bin:$PATH:q"

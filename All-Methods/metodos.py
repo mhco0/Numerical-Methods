@@ -249,7 +249,7 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 
 def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 
-	print('Metodo de Formula Inversa de Diferenciacao'+straux)
+	print('Metodo de Formula Inversa'+straux)
 	print('y({}) = {}'.format(t0,yl[0]))
 	print('h = {}'.format(h))
 
@@ -273,9 +273,6 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 
 	t,y = symbols('t y')
 
-
-	yn = 0.0
-
 	for i in range(order):
 		print(i,' ',yl[i])
 		if(i>0):
@@ -287,9 +284,9 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 		aux += h*coefF[order-1][0]*funct.subs({t:(t0+h),y:Adam_BashforthPd(yl,t0,h,funct,order)})
 
 		for j in range(len(coefM[order-1])):
-			aux += h*coefM[order-1][j]*yl[len(yl)-j-1]
+			aux += coefM[order-1][j]*yl[len(yl)-j-1]
 
-		yn = yn + aux
+		yn = aux
 		t0 = t0 + h
 
 		yl.append(yn)
