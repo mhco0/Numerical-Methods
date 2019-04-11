@@ -40,7 +40,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/CIN/tmt2/Desktop/Numerical-Methods/All-Methods/virEnv"
+VIRTUAL_ENV="/home/CIN/mhco/Desktop/Numerical-Methods/All-Methods/virEnv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
