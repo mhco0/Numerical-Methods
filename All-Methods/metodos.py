@@ -274,7 +274,7 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 	t,y = symbols('t y')
 
 
-	yn = float(yl[len(yl)-1])
+	yn = 0.0
 
 	for i in range(order):
 		print(i,' ',yl[i])
@@ -283,10 +283,9 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 
 	for i in range(order,qp+1,1):
 		aux = 0.0
-		yn = float(yl[len(yl)-1])
-		
+				
 		aux += h*coefF[order-1][0]*funct.subs({t:(t0+h),y:Adam_BashforthPd(yl,t0,h,funct,order)})
-		#try next yn+1 = yn + for(h*coefM[order-1]*funct)
+
 		for j in range(len(coefM[order-1])):
 			aux += h*coefM[order-1][j]*yl[len(yl)-j-1]
 
