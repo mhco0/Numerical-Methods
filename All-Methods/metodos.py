@@ -183,7 +183,7 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 	yn = float(yl[len(yl)-1])
 
 	for i in range(order):
-		print(i,' %.17f'%yl[i])
+		print(i,' ',yl[i])
 		t0 = t0 + h
 
 	#t0 = t0 - h
@@ -198,7 +198,7 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 
 		yl.append(yn)
 
-		print(i,' %.17f'%yn)
+		print(i,' ',yn)
 	return 
 
 def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
@@ -223,10 +223,9 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 	yn = float(yl[len(yl)-1])
 
 	for i in range(order):
-		print(i,' %.17f'%yl[i])
+		print(i,' ',yl[i])
 		t0 = t0 + h
 
-	#t0 = t0 - h
 	for i in range(order,qp+1,1):
 		aux = 0.0
 
@@ -242,10 +241,32 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 
 		yl.append(yn)
 
-		print(i,' %.17f'%yn)
+		print(i,' ',yn)
 	return
 
-def Formula_Inversa():
+def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
+
+	print('Metodo de Formula Inversa de Diferenciacao'+straux)
+	print('y({}) = {}'.format(t0,yl[0]))
+	print('h = {}'.format(h))
+
+	coefM = [
+			[1.0],
+			[4.0/3.0,-1.0/3.0],
+			[18.0/11.0,-9.0/11.0,2.0/11.0],
+			[48.0/25.0,-36.0/25.0,16.0/25.0,-3.0/25.0],
+			[300.0/137.0,-300.0/137.0,200.0/137.0,-75.0/137.0,12.0/137.0],
+			[360.0/147.0,-450.0/147.0,400.0/147.0,-225.0/147.0,72.0/147.0,-10.0/147.0],
+			]
+
+	coefF = [
+			[1.0]
+			[2.0/3.0]
+			[6.0/11.0]
+			[12.0/25.0]
+			[60.0/137.0]
+			[60.0/147.0]
+			]
 	return
 
 def main():
@@ -409,6 +430,7 @@ def main():
 			yl = EulerInvList(y0,t0,h,funct,order)
 			Adam_Multon(yl,t0,h,qp,funct,order,' por Euler Inverso')
 			print()
+
 		elif(method == 'adam_multon_by_euler_aprimorado'):
 
 			y0 = float(entry[1])
@@ -421,6 +443,7 @@ def main():
 			yl = EulerAprimList(y0,t0,h,funct,order)
 			Adam_Multon(yl,t0,h,qp,funct,order,' por Euler Aprimorado')
 			print()
+
 		elif(method == 'adam_multon_by_runge_kutta'):
 
 			y0 = float(entry[1])
@@ -431,7 +454,6 @@ def main():
 			order = int(entry[6])
 
 			yl = RungeKuttaList(y0,t0,h,funct,order)
-			print(yl)
 			Adam_Multon(yl,t0,h,qp,funct,order,' por Runge-Kutta ( ordem = {} )'.format(order))
 			print()
 
