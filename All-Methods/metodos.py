@@ -30,7 +30,7 @@ def Adam_BashforthPd(yl,t0,h,funct,order):
 
 	yn = yn + aux
 
-	return yn
+	return float(yn)
 
 def EulerList(y0,t0,h,funct,order):
 	yl = []
@@ -260,13 +260,38 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 			]
 
 	coefF = [
-			[1.0]
-			[2.0/3.0]
-			[6.0/11.0]
-			[12.0/25.0]
-			[60.0/137.0]
-			[60.0/147.0]
+			[1.0],
+			[2.0/3.0],
+			[6.0/11.0],
+			[12.0/25.0],
+			[60.0/137.0],
+			[60.0/147.0],
 			]
+
+	t,y = symbols('t y')
+
+
+	yn = float(yl[len(yl)-1])
+
+	for i in range(order):
+		print(i,' ',yl[i])
+		t0 = t0 + h
+
+	for i in range(order,qp+1,1):
+		aux = 0.0
+
+		aux += h*coefF[order-1][0]*funct.subs({t:(t0+h),y:Adam_BashforthPd(yl,t0,h,funct,order)})
+		#try next yn+1 = yn + for(h*coefM[order-1]*funct)
+		for j in range(len(coefM[order-1])):
+			aux += h*coefM[order-1][j]*yl[len(yl)-j-1]
+
+		yn = yn + aux
+		t0 = t0 + h
+
+		yl.append(yn)
+
+		print(i,' ',yn)
+
 	return
 
 def main():
@@ -457,15 +482,76 @@ def main():
 			Adam_Multon(yl,t0,h,qp,funct,order,' por Runge-Kutta ( ordem = {} )'.format(order))
 			print()
 
-		# elif(method == 'formula_inversa'):
+		elif(method == 'formula_inversa'):
 
-		# elif(method == 'formula_inversa_by_euler'):
+			yl = []
+			size = len(entry)
 
-		# elif(method == 'formula_inversa_by_euler_inverso'):
+			for i in range(int(entry[size-1])):
+				yl.append(entry[i+1])
+				yl[i] = float(yl[i])
 
-		# elif(method == 'formula_inversa_by_euler_aprimorado'):
 
-		# elif(method == 'formula_inversa_by_runge_kutta'):
+			t0 = float(entry[size-5])
+			h = float(entry[size-4])
+			qp = int(entry[size-3])
+			funct = parse_expr(entry[size-2])
+			order = int(entry[size-1])
+			
+			Formula_Inversa(yl,t0,h,qp,funct,order)
+			print()
+
+		elif(method == 'formula_inversa_by_euler'):
+
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
+
+			yl = EulerList(y0,t0,h,funct,order)
+			Formula_Inversa(yl,t0,h,qp,funct,order,' por Euler')
+			print()
+
+		elif(method == 'formula_inversa_by_euler_inverso'):
+
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
+
+			yl = EulerInvList(y0,t0,h,funct,order)
+			Formula_Inversa(yl,t0,h,qp,funct,order,' por Euler Inverso')
+			print(),
+
+		elif(method == 'formula_inversa_by_euler_aprimorado'):
+
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
+
+			yl = EulerAprimList(y0,t0,h,funct,order)
+			Formula_Inversa(yl,t0,h,qp,funct,order,' por Euler Aprimorado')
+			print()
+
+		elif(method == 'formula_inversa_by_runge_kutta'):
+
+			y0 = float(entry[1])
+			t0 = float(entry[2])
+			h = float(entry[3])
+			qp = int(entry[4])
+			funct = parse_expr(entry[5])
+			order = int(entry[6])
+
+			yl = RungeKuttaList(y0,t0,h,funct,order)
+			Formula_Inversa(yl,t0,h,qp,funct,order,' por Runge-Kutta ( ordem = {} )'.format(order))
+			print()
 
 	return 0
 
