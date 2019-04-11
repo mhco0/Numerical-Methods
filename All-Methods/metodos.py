@@ -184,9 +184,9 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 
 	for i in range(order):
 		print(i,' ',yl[i])
-		t0 = t0 + h
+		if(i>0):
+			t0 = t0 + h
 
-	#t0 = t0 - h
 	for i in range(order,qp+1,1):
 		aux = 0.0
 
@@ -202,7 +202,7 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 	return 
 
 def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
-	print('Metodo de Adam-Multon'+straux)
+	print('Metodo de Adam-Moulton'+straux)
 	print('y({}) = {}'.format(t0,yl[0]))
 	print('h = {}'.format(h))
 
@@ -224,7 +224,8 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 
 	for i in range(order):
 		print(i,' ',yl[i])
-		t0 = t0 + h
+		if(i>0):
+			t0 = t0 + h
 
 	for i in range(order,qp+1,1):
 		aux = 0.0
@@ -275,11 +276,13 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 
 	for i in range(order):
 		print(i,' ',yl[i])
-		t0 = t0 + h
+		if(i>0):
+			t0 = t0 + h
 
 	for i in range(order,qp+1,1):
 		aux = 0.0
-
+		yn = float(yl[len(yl)-1])
+		
 		aux += h*coefF[order-1][0]*funct.subs({t:(t0+h),y:Adam_BashforthPd(yl,t0,h,funct,order)})
 		#try next yn+1 = yn + for(h*coefM[order-1]*funct)
 		for j in range(len(coefM[order-1])):

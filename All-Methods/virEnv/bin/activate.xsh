@@ -25,7 +25,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/home/CIN/mhco/Desktop/Numerical-Methods/All-Methods/virEnv"
+$VIRTUAL_ENV = r"/home/gabriel/Área de Trabalho/Numerical-Methods/All-Methods/virEnv"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]
