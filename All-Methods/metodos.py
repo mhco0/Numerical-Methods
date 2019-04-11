@@ -110,7 +110,7 @@ def Euler(y0,t0,h,qp,funct):
 		print(i,' ',yn)
 		yn = yn + h*funct.subs({t:t0,y:yn})
 		t0 = t0 + h
-	return 
+	return  
 
 def Euler_Inverso(y0,t0,h,qp,funct):
 	print('Metodo de Euler Inverso')
