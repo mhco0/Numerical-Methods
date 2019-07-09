@@ -1,4 +1,4 @@
-#!/home/CIN/mhco/Desktop/Numerical-Methods/All-Methods/virEnv/bin/python
+#!/home/marcos/Desktop/Numerical-Methods/All-Methods/virEnv/bin/python
 
 import sys
 import getopt

@@ -1,5 +1,7 @@
 from sympy import *
 from sympy.parsing.sympy_parser import parse_expr
+import numpy as np
+import matplotlib.pyplot as plt
 import sys
 #################### Auxi ####################
 def EulerPd(y0,t0,h,funct):
@@ -103,13 +105,25 @@ def Euler(y0,t0,h,qp,funct):
 	print('Metodo de Euler')
 	print('y({}) = {}'.format(t0,y0))
 	print('h = {}'.format(h))
+	
+	arry = []
+	arrt = []
 
 	t,y = symbols('t y')
 	yn = y0
 	for i in range(qp+1):
 		print(i,' ',yn)
+		arry.append(yn)
+		arrt.append(t0)
 		yn = yn + h*funct.subs({t:t0,y:yn})
 		t0 = t0 + h
+	
+	plt.xlabel('t (m)')
+	plt.ylabel('y(t) (ºF)')
+	plt.title('Metodo de Euler')
+	plt.plot(arrt,arry,color='red')
+	plt.show()
+
 	return  
 
 def Euler_Inverso(y0,t0,h,qp,funct):
@@ -117,30 +131,55 @@ def Euler_Inverso(y0,t0,h,qp,funct):
 	print('y({}) = {}'.format(t0,y0))
 	print('h = {}'.format(h))
 
+	arry = []
+	arrt = []
+
 	t,y = symbols('t y')
 	yn = y0
 	for i in range(qp+1):
 		print(i,' ',yn)
+		arry.append(yn)
+		arrt.append(t0)
+		
 		yaux = EulerPd(yn,t0,h,funct)
 		taux = t0 + h
 		yn = yn + h*funct.subs({t:taux,y:yaux})
 		t0 = t0 + h 
+		
+	plt.xlabel('t (m)')
+	plt.ylabel('y(t) (ºF)')
+	plt.title('Metodo de Euler Inverso')
+	plt.plot(arrt,arry,color='blue')
+	plt.show()
+	
 	return
 
 def Euler_Aprimorado(y0,t0,h,qp,funct):
 	print('Metodo de Euler Aprimorado')
 	print('y({}) = {}'.format(t0,y0))
 	print('h = {}'.format(h))
-
+	
+	arry = []
+	arrt = []
+	
 	t,y = symbols('t y')
 	yn = y0
 	for i in range(qp+1):
 		print(i,' ',yn)
-
+		arry.append(yn)
+		arrt.append(t0)
+		
 		k1 = funct.subs({t:t0,y:yn})
 		k2 = funct.subs({t:(t0+h),y:yn+h*k1})
 		yn = yn + float((h*(k1+k2))/2)
 		t0 = t0 + h
+	
+	plt.xlabel('t (m)')
+	plt.ylabel('y(t) (ºF)')
+	plt.title('Metodo de Euler Aprimorado')
+	plt.plot(arrt,arry,color='green')
+	plt.show()
+	
 	return
 
 def Runge_Kutta(y0,t0,h,qp,funct):
@@ -148,10 +187,15 @@ def Runge_Kutta(y0,t0,h,qp,funct):
 	print('y({}) = {}'.format(t0,y0))
 	print('h = {}'.format(h))
 
+	arry = []
+	arrt = []
+
 	t,y = symbols('t y')
 	yn = y0
 	for i in range(qp+1):
 		print(i,' ',yn)
+		arry.append(yn)
+		arrt.append(t0)
 
 		k1 = funct.subs({t:t0,y:yn})
 		k2 = funct.subs({t:(t0+h/2),y:yn+(h/2)*k1})
@@ -159,6 +203,13 @@ def Runge_Kutta(y0,t0,h,qp,funct):
 		k4 = funct.subs({t:(t0+h),y:yn+h*k3})
 		yn = yn + float((h*(k1+2*k2+2*k3+k4))/6)
 		t0 = t0 + h
+	
+	plt.xlabel('t (m)')
+	plt.ylabel('y(t) (ºF)')
+	plt.title('Metodo de Runge-Kutta')
+	plt.plot(arrt,arry,color='orange')
+	plt.show()
+	
 	return
 
 def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
@@ -166,6 +217,8 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 	print('y({}) = {}'.format(t0,yl[0]))
 	print('h = {}'.format(h))
 
+	arry = []
+	arrt = []
 
 	coefM = [
 			[1.0],
@@ -184,6 +237,8 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 
 	for i in range(order):
 		print(i,' ',yl[i])
+		arry.append(yl[i])
+		arrt.append(t0)
 		if(i>0):
 			t0 = t0 + h
 
@@ -199,12 +254,24 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 		yl.append(yn)
 
 		print(i,' ',yn)
+		arry.append(yn)
+		arrt.append(t0)
+	
+	plt.xlabel('t (m)')
+	plt.ylabel('y(t) (ºF)')
+	plt.title('Metodo de Adam-Bashforth')
+	plt.plot(arrt,arry,color='yellow')
+	plt.show()
+	
 	return 
 
 def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 	print('Metodo de Adam-Moulton'+straux)
 	print('y({}) = {}'.format(t0,yl[0]))
 	print('h = {}'.format(h))
+	
+	arry = []
+	arrt = []
 
 	coefM = [
 			[1.0],
@@ -226,6 +293,8 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 
 	for i in range(order):
 		print(i,' ',yl[i])
+		arry.append(yl[i])
+		arrt.append(t0)
 		if(i>0):
 			t0 = t0 + h
 
@@ -245,6 +314,14 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 		yl.append(yn)
 
 		print(i,' ',yn)
+		arry.append(yn)
+		arrt.append(t0)
+		
+	plt.xlabel('t (m)')
+	plt.ylabel('y(t) (ºF)')
+	plt.title('Metodo de Adam-Moulton')
+	plt.plot(arrt,arry,color='silver')
+	plt.show()
 	return
 
 def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
@@ -252,6 +329,9 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 	print('Metodo de Formula Inversa'+straux)
 	print('y({}) = {}'.format(t0,yl[0]))
 	print('h = {}'.format(h))
+
+	arry = []
+	arrt = []
 
 	coefM = [
 			[1.0],
@@ -275,6 +355,8 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 
 	for i in range(order):
 		print(i,' ',yl[i])
+		arry.append(yl[i])
+		arrt.append(t0)
 		if(i>0):
 			t0 = t0 + h
 
@@ -292,7 +374,14 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 		yl.append(yn)
 
 		print(i,' ',yn)
+		arry.append(yn)
+		arrt.append(t0)
 
+	plt.xlabel('t (m)')
+	plt.ylabel('y(t) (ºF)')
+	plt.title('Metodo de Formula Inversa')
+	plt.plot(arrt,arry,color='black')
+	plt.show()
 	return
 
 def main():
