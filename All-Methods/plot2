@@ -1,0 +1,7 @@
+euler 50.0 0.0 0.1 200 6-y/100
+euler_inverso 50.0 0.0 0.1 200 6-y/100
+euler_aprimorado 50.0 0.0 0.1 200 6-y/100
+runge_kutta 50.0 0.0 0.1 200 6-y/100
+adam_bashforth 50.0 0.0 0.1 200 6-y/100 1
+adam_multon 50.0 0.0 0.1 200 6-y/100 1
+formula_inversa 50.0 0.0 0.1 200 6-y/100 1

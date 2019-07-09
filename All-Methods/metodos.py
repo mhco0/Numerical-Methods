@@ -119,7 +119,7 @@ def Euler(y0,t0,h,qp,funct):
 		t0 = t0 + h
 	
 	plt.xlabel('t (m)')
-	plt.ylabel('y(t) (ºF)')
+	plt.ylabel('y(t) (A)')
 	plt.title('Metodo de Euler')
 	plt.plot(arrt,arry,color='red')
 	plt.show()
@@ -147,7 +147,7 @@ def Euler_Inverso(y0,t0,h,qp,funct):
 		t0 = t0 + h 
 		
 	plt.xlabel('t (m)')
-	plt.ylabel('y(t) (ºF)')
+	plt.ylabel('y(t) (A)')
 	plt.title('Metodo de Euler Inverso')
 	plt.plot(arrt,arry,color='blue')
 	plt.show()
@@ -175,7 +175,7 @@ def Euler_Aprimorado(y0,t0,h,qp,funct):
 		t0 = t0 + h
 	
 	plt.xlabel('t (m)')
-	plt.ylabel('y(t) (ºF)')
+	plt.ylabel('y(t) (A)')
 	plt.title('Metodo de Euler Aprimorado')
 	plt.plot(arrt,arry,color='green')
 	plt.show()
@@ -205,7 +205,7 @@ def Runge_Kutta(y0,t0,h,qp,funct):
 		t0 = t0 + h
 	
 	plt.xlabel('t (m)')
-	plt.ylabel('y(t) (ºF)')
+	plt.ylabel('y(t) (A)')
 	plt.title('Metodo de Runge-Kutta')
 	plt.plot(arrt,arry,color='orange')
 	plt.show()
@@ -258,7 +258,7 @@ def Adam_Bashforth(yl,t0,h,qp,funct,order,straux=''):
 		arrt.append(t0)
 	
 	plt.xlabel('t (m)')
-	plt.ylabel('y(t) (ºF)')
+	plt.ylabel('y(t) (A)')
 	plt.title('Metodo de Adam-Bashforth')
 	plt.plot(arrt,arry,color='yellow')
 	plt.show()
@@ -318,7 +318,7 @@ def Adam_Multon(yl,t0,h,qp,funct,order,straux=''):
 		arrt.append(t0)
 		
 	plt.xlabel('t (m)')
-	plt.ylabel('y(t) (ºF)')
+	plt.ylabel('y(t) (A)')
 	plt.title('Metodo de Adam-Moulton')
 	plt.plot(arrt,arry,color='silver')
 	plt.show()
@@ -378,7 +378,7 @@ def Formula_Inversa(yl,t0,h,qp,funct,order,straux=''):
 		arrt.append(t0)
 
 	plt.xlabel('t (m)')
-	plt.ylabel('y(t) (ºF)')
+	plt.ylabel('y(t) (A)')
 	plt.title('Metodo de Formula Inversa')
 	plt.plot(arrt,arry,color='black')
 	plt.show()

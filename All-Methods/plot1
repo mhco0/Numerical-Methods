@@ -1,0 +1,7 @@
+euler 16620.0 0.0 0.1 200 0.11*y
+euler_inverso 16620.0 0.0 0.1 200 0.11*y
+euler_aprimorado 16620.0 0.0 0.1 200 0.11*y
+runge_kutta 16620.0 0.0 0.1 200 0.11*y
+adam_bashforth 16620.0 0.0 0.1 200 0.11*y 1
+adam_multon 16620.0 0.0 0.1 200 0.11*y 1
+formula_inversa 16620.0 0.0 0.1 200 0.11*y 1
