@@ -23,5 +23,5 @@ Cada aluno ficou encarregado de uma questão em específico , então para cada u
 * Luis -> Questão 1 e Questão 4 letra a)
 * Thalisson -> Questão 2
 * Marcos -> Questão 3
-* Thalisson & Marcos -> Questão 4 letra b) e Questão letra c)
+* Thalisson & Marcos -> Questão 4 letra b) e Questão 4 letra c)
 
